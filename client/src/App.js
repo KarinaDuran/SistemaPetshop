@@ -1,24 +1,25 @@
-import * as yup from "yup";
-import { ErrorMessage, Formik, Form, Field } from "formik";
-import Axios from "axios";
+import * as yup from 'yup';
+import { ErrorMessage, Formik, Form, Field } from 'formik';
+import Input from './components/Input';
+import Button from './components/Button';
+import Axios from 'axios';
 
 function App() {
-  const handleLogin = (values) => {
-    Axios.post("http://localhost:3001/login", {
-      email: values.email,
-      senha: values.senha,
+  const handleLogin = ({ email, senha }) => {
+    Axios.post('http://localhost:3001/login', {
+      email,
+      senha,
     }).then((response) => {
       alert(response.data.msg);
     });
   };
 
   const handleRegister = (values) => {
-    Axios.post("http://localhost:3001/register", {
+    Axios.post('http://localhost:3001/register', {
       email: values.email,
       nome: values.nome,
       telefone: values.telefone,
       senha: values.senha,
-
     }).then((response) => {
       alert(response.data.msg);
       console.log(response);
@@ -28,25 +29,21 @@ function App() {
   const validationsLogin = yup.object().shape({
     email: yup
       .string()
-      .email("email inválido")
-      .required("O email é obrigatório"),
-    senha: yup
-      .string()
-      .required("A senha é obrigatória"),
+      .email('email inválido')
+      .required('O email é obrigatório'),
+    senha: yup.string().required('A senha é obrigatória'),
   });
 
   const validationsRegister = yup.object().shape({
     email: yup
       .string()
-      .email("email inválido")
-      .required("O email é obrigatório"),
-    senha: yup
-      .string()
-      .required("A senha é obrigatória"),
+      .email('email inválido')
+      .required('O email é obrigatório'),
+    senha: yup.string().required('A senha é obrigatória'),
     confirmation: yup
       .string()
-      .oneOf([yup.ref("senha"), null], "As senhas são diferentes")
-      .required("A confirmação da senha é obrigatória"),
+      .oneOf([yup.ref('senha'), null], 'As senhas são diferentes')
+      .required('A confirmação da senha é obrigatória'),
   });
 
   return (
@@ -58,29 +55,9 @@ function App() {
         validationSchema={validationsLogin}
       >
         <Form className="login-form">
-          <div className="login-form-group">
-            <Field name="email" className="form-field" placeholder="Email" />
-
-            <ErrorMessage
-              component="span"
-              name="email"
-              className="form-error"
-            />
-          </div>
-          {/*Outro campo*/}
-          <div className="form-group">
-            <Field name="senha" className="form-field" placeholder="Senha" />
-
-            <ErrorMessage
-              component="span"
-              name="senha"
-              className="form-error"
-            />
-          </div>
-
-          <button className="button" type="submit">
-            Login
-          </button>
+          <Input title="Email" name="email" />
+          <Input title="Senha" name="senha" password />
+          <Button type="submit">Login</Button>
         </Form>
       </Formik>
       {/*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/}
@@ -91,6 +68,11 @@ function App() {
         validationSchema={validationsRegister}
       >
         <Form className="register-form">
+          <Input title="Email" name="email" />
+          <Input title="Senha" name="senha" password />
+          <Input title="Confirmar senha" name="confirmation" password />
+          <Input title="Nome" name="nome" />
+          <Input title="Telefone" name="telefone" />
           <div className="register-form-group">
             <Field name="email" className="form-field" placeholder="Email" />
 
@@ -127,15 +109,15 @@ function App() {
           <div className="form-group">
             <Field name="nome" className="form-field" placeholder="Nome" />
 
-            <ErrorMessage
-              component="span"
-              name="nome"
-              className="form-error"
-            />
+            <ErrorMessage component="span" name="nome" className="form-error" />
           </div>
 
           <div className="form-group">
-            <Field name="telefone" className="form-field" placeholder="Telefone" />
+            <Field
+              name="telefone"
+              className="form-field"
+              placeholder="Telefone"
+            />
 
             <ErrorMessage
               component="span"
@@ -144,9 +126,9 @@ function App() {
             />
           </div>
 
-          <button className="button" type="submit">
+          <Button className="button" type="submit" inverse variant="darker">
             Cadastrar
-          </button>
+          </Button>
         </Form>
       </Formik>
     </div>
