@@ -1,21 +1,14 @@
 const db = require('../database/db');
 const {DataTypes} = require('sequelize');
-const Sequelize = require('sequelize')
 
-const User = db.sequelize.define('usuarios', {
+const Scheduling = db.sequelize.define('agendamento', {
     email: {
         type: db.Sequelize.STRING,
         primaryKey: true
     },
-    nome: {
-        type: db.Sequelize.STRING
+    horario: {
+        type: db.Sequelize.DATE
     },
-    telefone: {
-        type: db.Sequelize.STRING
-    },
-    senha: {
-        type: db.Sequelize.STRING
-    }
 }
 , {
     timestamps: false,

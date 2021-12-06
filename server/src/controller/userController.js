@@ -10,19 +10,20 @@ module.exports = {
       const telefone = req.body.telefone;
       const senha = req.body.senha;
     try{
-      bcrypt.hash(senha, saltRounds, (err, hash) => {
-        user = await User.create({
+     // bcrypt.hash(senha, saltRounds, (err, hash) => {
+       const hash = 1;
+        user = User.create({
           email: email,
           nome: nome,
           telefone: telefone,
           senha: hash
         })
-        return {status: 201, data: {message: inscrito}, statusText: 'Cadastro realizado com sucesso'};
-      })
+        return {status: 201, data: {message: user}, statusText: 'Cadastro realizado com sucesso'};
+      //})
     } 
     catch(erro){
       mesmoMail = await User.findOne({where: {email: email}})
-      if (mesmoMail) return {status: 400, data: {message: cpf}, statusText: 'email já cadastrado'};
+      if (mesmoMail) return {status: 400, data: {message: email}, statusText: 'email já cadastrado'};
     }
   },
   
@@ -30,11 +31,11 @@ module.exports = {
     const email = req.body.email;
     const senha = req.body.senha;
     const user = await User.findOne({where: {email: email}})
-    if(!user) return {status: 400, data: {message: cpf}, statusText: 'email não encontrado'}
+    if(!user) return {status: 400, data: {message: email}, statusText: 'email não encontrado'}
     bcrypt.compare(senha, user.dataValues.senha, (error, response) => {
           if (error)  return error;
           if (response) return "Usuário logado" 
-          else return  {status: 401, data: {message: cpf}, statusText: 'Senha Incorreta'}
+          else return  {status: 401, data: {message: email}, statusText: 'Senha Incorreta'}
 
     })  
   }
