@@ -1,17 +1,21 @@
 import React from 'react';
-import Typography from '../../components/Typography';
-import styled from 'styled-components';
-import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 import Axios from 'axios';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
-import Link from '../../components/Link';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  CssBaseline,
+  Grid,
+  Link,
+  TextField,
+  Typography,
+} from '@mui/material';
+import PetsIcon from '@mui/icons-material/Pets';
 
-const Section = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+const theme = createTheme();
 
 const LoginPage = () => {
   const handleLogin = ({ email, senha }) => {
@@ -32,21 +36,60 @@ const LoginPage = () => {
   });
 
   return (
-    <Section>
-      <Typography component="h1">Entrar</Typography>
-      <Formik
-        initialValues={{}}
-        onSubmit={handleLogin}
-        validationSchema={validationsLogin}
-      >
-        <Form className="login-form">
-          <Input title="Email" name="email" />
-          <Input title="Senha" name="senha" password />
-          <Link href="/">Esqueci minha senha</Link>
-          <Button type="submit">Login</Button>
-        </Form>
-      </Formik>
-    </Section>
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <PetsIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Login
+          </Typography>
+          <Box component="form" onSubmit={handleLogin} sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email"
+              name="email"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="senha"
+              label="Senha"
+              type="password"
+              id="senha"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Entrar
+            </Button>
+            <Grid container>
+              <Grid item>
+                <Link href="#" variant="body2">
+                  Não tem um cadastro? Cadastre-se
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
   );
 };
 

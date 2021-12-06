@@ -1,7 +1,8 @@
 import * as yup from 'yup';
-import { ErrorMessage, Formik, Form, Field } from 'formik';
+import { ErrorMessage, Formik, Form as FormikForm, Field } from 'formik';
 import Input from './components/Input';
 import Button from './components/Button';
+import Form from './components/Form';
 import Axios from 'axios';
 
 function App() {
@@ -49,17 +50,19 @@ function App() {
   return (
     <div className="container">
       <h1>Login</h1>
-      <Formik
+      <Form onSubmit={handleLogin} validationSchema={validationsLogin}>
+        <Input title="Email" name="email" />
+        <Input title="Senha" name="senha" password />
+        <Button type="submit">Login</Button>
+      </Form>
+      {/* <Formik
         initialValues={{}}
         onSubmit={handleLogin}
         validationSchema={validationsLogin}
       >
-        <Form className="login-form">
-          <Input title="Email" name="email" />
-          <Input title="Senha" name="senha" password />
-          <Button type="submit">Login</Button>
-        </Form>
-      </Formik>
+        <Form className="login-form"> */}
+      {/* </Form>
+      </Formik> */}
       {/*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/}
       <h1>Cadastro</h1>
       <Formik

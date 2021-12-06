@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import theme from '../../theme';
 import Typography from '../Typography';
 
 const Link = ({ href, children, ...props }) => {
