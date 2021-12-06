@@ -3,14 +3,14 @@ const express = require('express');
 const routes = express.Router();
 
 const controllers = {
-    'user': require('./controllers/userController'),
+    'user': require('./controller/userController'),
 }
 
 routes.get('/', (req, res) => {
     return res.json({
         message: 'Hello World'
     });
-});
+})
 
 routes.all('/*', async (req, res) => {
     console.log(req.url)
