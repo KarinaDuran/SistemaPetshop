@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="shortcut icon" href="2809814.ico">
+    <title>Bem vindo à PetTech</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&family=Open+Sans&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@100&display=swap');
+
+    body {
+        background-color: #f6decf;
+        background-image: url('dog-walking.gif');
+        background-repeat: no-repeat;
+        background-position-x: center;
+        background-position-y: center;
+        background-attachment: fixed;
+
+    }
+
+    .borda {
+        border: 3px solid #ffeadb;
+        margin-left: 2%;
+        margin-top: 2%;
+        margin-right: 2%;
+        margin-bottom: 1%;
+        border-radius: 10px;
+
+    }
+
+    .saudacoes {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+
+    .saudacoes {
+        margin-top: 2%;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 20px;
+    }
+
+    .subtitulo {
+        margin-top: -2.5%;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+
+    .subtitulo {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 13px;
+    }
+
+
+    .butao-login {
+        display: inline-block;
+        border-radius: 4px;
+        background-color: #ff5e00;
+        border: none;
+        color: #FFFFFF;
+        text-align: center;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 28px;
+        padding: 20px;
+        width: 24%;
+        transition: all 0.5s;
+        cursor: pointer;
+        align-items: center;
+        position: relative;
+        left: 25.5%;
+        margin-top: 25%;
+
+    }
+
+    .butao-login span {
+        cursor: pointer;
+        display: inline-block;
+        position: static;
+        transition: 0.5s;
+    }
+
+    .butao-login:hover span {
+        padding-right: 25px;
+    }
+
+    .butao-login:hover span:after {
+        opacity: 1;
+        right: 0;
+    }
+
+    .butao-cadastro {
+        display: inline-block;
+        border-radius: 4px;
+        background-color: #ff5e00;
+        border: none;
+        color: #FFFFFF;
+        text-align: center;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 28px;
+        padding: 20px;
+        width: 24%;
+        transition: all 0.5s;
+        cursor: pointer;
+        align-items: center;
+        position: relative;
+        left: 26%;
+        margin-top: 26%;
+        margin-bottom: 4%;
+
+    }
+
+    .butao-cadastro span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+    }
+
+    .butao-cadastro:hover span {
+        padding-right: 25px;
+    }
+
+    .butao-cadastro:hover span:after {
+        opacity: 1;
+        right: 0;
+    }
+</style>
+
+<body>
+    <div class='borda'>
+        <div class='saudacoes'>
+            <h1>Bem Vindo à PetTech!</h1>
+            
+            <noscript>You need to enable JavaScript to run this app.</noscript>
+        </div>
+        <div class='subtitulo'>
+            <h2> Serviços de banho e tosa para seu pet.</h2>
+        </div>
+
+        <button class='butao-login' type="submit"><span>Faça seu login!</span></button>
+        <button class='butao-cadastro' type="submit"><span>Ou Cadastre-se</span></button>
+    </div>
+</body>
+
+</html>
