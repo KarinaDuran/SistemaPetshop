@@ -17,7 +17,7 @@ import PetsIcon from '@mui/icons-material/Pets';
 
 const theme = createTheme();
 
-const LoginPage = () => {
+const RegisterForm = () => {
   const handleLogin = ({ nome, email, senha }) => {
     Axios.post('http://localhost:3001/register', {
       nome,
@@ -66,7 +66,7 @@ const LoginPage = () => {
               required
               fullWidth
               name="email"
-              label="email"
+              label="Email"
               id="email"
             />
             <TextField
@@ -78,6 +78,15 @@ const LoginPage = () => {
               type="password"
               id="senha"
             />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="confirma-senha"
+              label="Confirme sua senha"
+              type="password"
+              id="confirma-senha"
+            />
             <Button
               type="submit"
               fullWidth
@@ -87,8 +96,7 @@ const LoginPage = () => {
               Entrar
             </Button>
             <Grid container>
-              <Grid item>
-              </Grid>
+              <Grid item></Grid>
             </Grid>
           </Box>
         </Box>

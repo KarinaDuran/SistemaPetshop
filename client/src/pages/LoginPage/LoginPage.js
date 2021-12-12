@@ -14,8 +14,20 @@ import {
   Typography,
 } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
+import { Form, Formik } from 'formik';
 
 const theme = createTheme();
+
+const formStatusProps = {
+  success: {
+    message: 'Login realizado com sucesso.',
+    type: 'success',
+  },
+  error: {
+    message: 'Algo deu errado. Tente novamente',
+    type: 'error',
+  },
+};
 
 const LoginPage = () => {
   const handleLogin = ({ email, senha }) => {
@@ -30,9 +42,9 @@ const LoginPage = () => {
   const validationsLogin = yup.object().shape({
     email: yup
       .string()
-      .email('email inválido')
+      .email('Este endereço de email é inválido')
       .required('O email é obrigatório'),
-    senha: yup.string().required('A senha é obrigatória'),
+    senha: yup.string().matches(/.{8}/g).required('A senha é obrigatória'),
   });
 
   return (
@@ -54,31 +66,65 @@ const LoginPage = () => {
             Login
           </Typography>
           <Box component="form" onSubmit={handleLogin} sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email"
-              name="email"
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="senha"
-              label="Senha"
-              type="password"
-              id="senha"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+            <Formik
+              initialValues={{ email: '', senha: '' }}
+              onSubmit={handleLogin}
+              validationSchema={validationsLogin}
             >
-              Entrar
-            </Button>
+              {({
+                values,
+                touched,
+                errors,
+                handleBlur,
+                handleChange,
+                isSubmitting,
+              }) => (
+                <Form>
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email"
+                    value={values.email}
+                    name="email"
+                    type="email"
+                    helperText={
+                      errors.email && touched.email
+                        ? errors.email
+                        : 'Insira seu email'
+                    }
+                    error={Boolean(errors.email && touched.email)}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="senha"
+                    label="Senha"
+                    type="password"
+                    id="senha"
+                    value={values.senha}
+                    helperText={
+                      errors.senha && touched.senha && 'Senha inválida'
+                    }
+                    error={Boolean(errors.password && touched.password)}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    Entrar
+                  </Button>
+                </Form>
+              )}
+            </Formik>
             <Grid container>
               <Grid item>
                 <Link href="#" variant="body2">
