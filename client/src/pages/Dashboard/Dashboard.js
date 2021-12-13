@@ -1,5 +1,5 @@
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import {
   AppBar as MuiAppBar,
   Drawer as MuiDrawer,
@@ -11,9 +11,19 @@ import {
   Divider,
   List,
   Grid,
+  Paper,
+  Typography,
+  Badge,
+  Title,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const drawerWidth = 240;
 
@@ -63,6 +73,37 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
+const exampleData = [
+  { nome: 'Caio', horario: '12h', animal: 'AuAu' },
+  { nome: 'Vitor', horario: '13h', animal: 'Miau' },
+];
+
+const Schedule = () => (
+  <Fragment>
+    <Typography component="h2" variant="h6" color="primary" gutterBottom>
+      Agendamentos
+    </Typography>
+    <Table size="small">
+      <TableHead>
+        <TableRow>
+          <TableCell>Nome</TableCell>
+          <TableCell>Horário</TableCell>
+          <TableCell>Animal</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {exampleData.map((row) => (
+          <TableRow>
+            <TableCell>{row.nome}</TableCell>
+            <TableCell>{row.horario}</TableCell>
+            <TableCell>{row.animal}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  </Fragment>
+);
+
 const Dashboard = () => {
   const [open, setOpen] = useState(false);
   const toggleDrawer = () => {
@@ -82,6 +123,20 @@ const Dashboard = () => {
               sx={{ marginRight: '36px', ...(open && { display: 'none ' }) }}
             >
               <MenuIcon />
+            </IconButton>
+            <Typography
+              component="h1"
+              variant="h6"
+              color="inherit"
+              noWrap
+              sx={{ flexGrow: 1 }}
+            >
+              Dashboard
+            </Typography>
+            <IconButton color="inherit">
+              <Badge badgeContent={4} color="secondary">
+                <NotificationsIcon />
+              </Badge>
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -118,7 +173,17 @@ const Dashboard = () => {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              <Grid item xs={12} md={8} lg={9}></Grid>
+              <Grid item xs={12}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
+                >
+                  <Schedule />
+                </Paper>
+              </Grid>
             </Grid>
           </Container>
         </Box>
