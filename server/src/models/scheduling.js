@@ -6,9 +6,15 @@ const Scheduling = db.sequelize.define('agendamento', {
         type: db.Sequelize.STRING,
         primaryKey: true
     },
-    horario: {
-        type: db.Sequelize.DATE
+    data: {
+        type: db.Sequelize.DATEONLY
     },
+    horario: {
+        type: db.Sequelize.STRING,
+    },
+    fk_id_animal:{
+        type: db.Sequelize.INTEGER,
+    }
 }
 , {
     timestamps: false,

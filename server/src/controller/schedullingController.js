@@ -15,14 +15,28 @@ module.exports ={
     }, 
     async mostrarHorario(req,res){
         lista = [];
-        scheduling = Scheduling.findAll();
+        const data = req.body.data;
+        scheduling = Scheduling.findAll({where: {data: data}});
         for(const s of scheduling){
             lista.push({
                 email: s.dataValues.email,
+                id_animal: fk_id_animal,
                 horario: s.dataValues.horario
             })
         }
         return lista;
+    }, 
+    async horarioLivre(req, res){
+        lista = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
+
+        const data = req.body.data;
+        scheduling = Scheduling.findAll({where: {data: data}});
+        for(const s of scheduling){
+            lista.pop(s.dataValues.horario)
+        }
+        return lista;
+
     }
+
 
 }

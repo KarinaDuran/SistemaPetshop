@@ -41,12 +41,11 @@ module.exports = {
   async login(req, res){
     const email = req.body.email;
     const senha = req.body.senha;
-    
     const user = await User.findOne({where: {email: email}})
     if(!user) return {status: 400, data: {message: email}, statusText: 'email não encontrado'}
     bcrypt.compare(senha, user.dataValues.senha, (error, response) => {
           if (error)  return error;
-          if (response) return "Usuário logado" 
+          if (response) return {email: email, admin: email == 'administrador@gmail.com'} 
           else return  {status: 401, data: {message: email}, statusText: 'Senha Incorreta'}
 
     })  
