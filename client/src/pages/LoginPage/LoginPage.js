@@ -1,7 +1,6 @@
 import React from 'react';
 import * as yup from 'yup';
 import Axios from 'axios';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 import {
   Avatar,
   Box,
@@ -15,8 +14,6 @@ import {
 } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
 import { Form, Formik } from 'formik';
-
-const theme = createTheme();
 
 const formStatusProps = {
   success: {
@@ -48,94 +45,90 @@ const LoginPage = () => {
   });
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <PetsIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Login
-          </Typography>
-          <Box component="form" onSubmit={handleLogin} sx={{ mt: 1 }}>
-            <Formik
-              initialValues={{ email: '', senha: '' }}
-              onSubmit={handleLogin}
-              validationSchema={validationsLogin}
-            >
-              {({
-                values,
-                touched,
-                errors,
-                handleBlur,
-                handleChange,
-                isSubmitting,
-              }) => (
-                <Form>
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email"
-                    value={values.email}
-                    name="email"
-                    type="email"
-                    helperText={
-                      errors.email && touched.email
-                        ? errors.email
-                        : 'Insira seu email'
-                    }
-                    error={Boolean(errors.email && touched.email)}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="senha"
-                    label="Senha"
-                    type="password"
-                    id="senha"
-                    value={values.senha}
-                    helperText={
-                      errors.senha && touched.senha && 'Senha inválida'
-                    }
-                    error={Boolean(errors.password && touched.password)}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                  >
-                    Entrar
-                  </Button>
-                </Form>
-              )}
-            </Formik>
-            <Grid container>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Não tem um cadastro? Cadastre-se
-                </Link>
-              </Grid>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <PetsIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Login
+        </Typography>
+        <Box component="form" onSubmit={handleLogin} sx={{ mt: 1 }}>
+          <Formik
+            initialValues={{ email: '', senha: '' }}
+            onSubmit={handleLogin}
+            validationSchema={validationsLogin}
+          >
+            {({
+              values,
+              touched,
+              errors,
+              handleBlur,
+              handleChange,
+              isSubmitting,
+            }) => (
+              <Form>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email"
+                  value={values.email}
+                  name="email"
+                  type="email"
+                  helperText={
+                    errors.email && touched.email
+                      ? errors.email
+                      : 'Insira seu email'
+                  }
+                  error={Boolean(errors.email && touched.email)}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="senha"
+                  label="Senha"
+                  type="password"
+                  id="senha"
+                  value={values.senha}
+                  helperText={errors.senha && touched.senha && 'Senha inválida'}
+                  error={Boolean(errors.password && touched.password)}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Entrar
+                </Button>
+              </Form>
+            )}
+          </Formik>
+          <Grid container>
+            <Grid item>
+              <Link href="#" variant="body2">
+                Não tem um cadastro? Cadastre-se
+              </Link>
             </Grid>
-          </Box>
+          </Grid>
         </Box>
-      </Container>
-    </ThemeProvider>
+      </Box>
+    </Container>
   );
 };
 

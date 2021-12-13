@@ -1,4 +1,12 @@
 const theme = {
+  palette: {
+    primary: {
+      main: '#ff5e00',
+    },
+    secondary: {
+      main: '#fff',
+    },
+  },
   colors: {
     default: {
       lighter: '#E39122',
