@@ -4,6 +4,7 @@ const routes = express.Router();
 
 const controllers = {
     'user': require('./controller/userController'),
+    'agendamento': require('./controller/schedullingController')
 }
 
 routes.get('/', (req, res) => {
