@@ -1,8 +1,9 @@
 import React, { CSSProperties } from 'react';
 import { useState } from "react";
 import Axios from 'axios';
-import Select from 'react-select';
-import DatePicker from "react-datepicker";
+// import Select from 'react-select';
+import themeDefault from '../theme';
+import Select from '@mui/material/Select';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import {
     Avatar,
@@ -13,11 +14,17 @@ import {
     Grid,
     TextField,
     Typography,
+    MenuItem,
+    OutlinedInput,
+    Chip,
+    InputLabel,
 } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import DatePicker from '@mui/lab/DatePicker';
 
-
-const theme = createTheme();
+const theme = createTheme(themeDefault);
 
 const horarios = [
     { value: '00:00', label: '00:00' },
@@ -35,7 +42,7 @@ const UserPage = () => {
         });
     };
 
-    const [startDate, setStartDate] = useState(new Date());
+    const [horario, setHorario] = useState("02:02");
 
     return (
         <ThemeProvider theme={theme}>
@@ -64,27 +71,49 @@ const UserPage = () => {
                             label="Email"
                             name="email"
                         />
-                        <DatePicker
-                            dateFormat="dd/MM/yyyy"
-                            selected={startDate}
-                            onChange={(date) => setStartDate(date)}
 
-                        />
 
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                                label="Data"
+                                renderInput={(params) => <TextField {...params} sx={{ mt: 3, mb: 2 }} fullWidth />}
+
+                            />
+
+                        </LocalizationProvider>
+                        {/* <InputLabel id="demo-multiple-chip-label">Horario</InputLabel> */}
                         <Select
-                            className="basic-single"
-                            classNamePrefix="select"
-                            defaultValue={horarios[0]}
-                            name="color"
-                            options={horarios}
-                        />
+                            fullWidth
+                            label="Horario"
+                            labelId="demo-multiple-chip-label"
+                            id="demo-multiple-chip"
+                            value={horario}
+                            onChange={(event) => { setHorario(event.target.value) }}
+                            input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                            renderValue={(selected) => (
+                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                    {horario.toString()}
+                                </Box>
+                            )}
+                        >
+                            {horarios.map((hora) => (
+                                <MenuItem
+                                    key={hora.label}
+                                    value={hora.value}
+                                // style={getStyles(name, personName, theme)}
+                                >
+                                    {hora.label}
+                                </MenuItem>
+                            ))}
+                        </Select>
+
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2, background: 'orange' }}
+                            sx={{ mt: 3, mb: 2 }}
                         >
-                            Entrar
+                            Marcar Horário
                         </Button>
                         <Grid container>
                             <Grid item>
@@ -94,7 +123,7 @@ const UserPage = () => {
                     </Box>
                 </Box>
             </Container>
-        </ThemeProvider>
+        </ThemeProvider >
     );
 };
 
