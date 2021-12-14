@@ -55,9 +55,9 @@ const LoginPage = () => {
           alignItems: 'center',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <PetsIcon />
-        </Avatar>
+               <Avatar sx={{ m: 1, bgcolor: '#FFA466' }}>
+                        <PetsIcon />
+                    </Avatar>
         <Typography component="h1" variant="h5">
           Login
         </Typography>
@@ -121,7 +121,7 @@ const LoginPage = () => {
           </Formik>
           <Grid container>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/cadastro" variant="body2">
                 Não tem um cadastro? Cadastre-se
               </Link>
             </Grid>

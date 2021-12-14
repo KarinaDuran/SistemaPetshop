@@ -61,7 +61,7 @@ const RegisterForm = () => {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'Orange' }}>
+          <Avatar sx={{ m: 1, bgcolor: '#FFA466' }}>
             <PetsIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -148,7 +148,7 @@ const RegisterForm = () => {
               Cadastrar
             </Button>
             <Grid item>
-              <Link href="/" variant="body2">
+              <Link href="/login" variant="body2">
                 Já tem cadastro? Faça seu login
               </Link>
             </Grid>

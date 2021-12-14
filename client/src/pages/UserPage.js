@@ -56,7 +56,7 @@ const UserPage = () => {
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'orange' }}>
+                    <Avatar sx={{ m: 1, bgcolor: '#FFA466' }}>
                         <PetsIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
