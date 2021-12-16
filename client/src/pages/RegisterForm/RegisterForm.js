@@ -1,3 +1,4 @@
+
 import React from 'react';
 import * as yup from 'yup';
 import Axios from 'axios';
@@ -19,19 +20,35 @@ import PetsIcon from '@mui/icons-material/Pets';
 const theme = createTheme(themeDefault);
 
 const RegisterForm = () => {
-  const handleRegister = ({ values }) => {
-    Axios.post('http://localhost:3001/cadastro', {
-      nome: values.nome,
-      email: values.email,
-      telefone: values.telefone,
-      senha: values.senha,
-      confirmacao: values.confirmacao,
-      nomeAnimal: values.nomeAnimal,
-      Porte: values.Porte,
-      Raca: values.Raca,
-    }).then((response) => {
-      alert(response.data.msg);
-    });
+  const handleRegister = async (values) => {
+    debugger
+    Axios({
+      method: "post",
+      url: "http://localhost:3001/cadastro",
+      data: values,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+      .then(function (response) {
+        //handle success
+        console.log(response);
+      })
+      .catch(function (response) {
+        //handle error
+        console.log(response);
+      });
+    // await Axios.post("", {
+    //   email: values.email,
+    //   nome: values.nome,
+    //   telefone: values.telefone,
+    //   nome_do_animal: values.nome_do_animal,
+    //   especie_do_animal: values.especie_do_animal,
+    //   porte_do_animal: values.porte_do_animal,
+    //   raca_do_animal: values.raca_do_animal,
+    //   senha: values.senha,
+    // }).then((response) => {
+    //   alert(response.data.msg);
+
+    // });
   };
 
   const validationsRegister = yup.object().shape({
@@ -46,7 +63,7 @@ const RegisterForm = () => {
       .required('A confirmação da senha é obrigatória'),
     nome: yup.string().required('O nome é obrigatório'),
     telefone: yup.string().required('O telefone é obrigatório'),
-    nomeAnimal: yup.string().required('O nome do animal é obrigatório'),
+    nome_animal: yup.string().required('O nome do animal é obrigatório'),
   });
 
   return (
@@ -96,29 +113,38 @@ const RegisterForm = () => {
               label="telefone"
               id="telefone"
             />
+
             <TextField
               margin="normal"
               required
               fullWidth
-              name="NomeAnimal"
+              name="nome_do_animal"
               label="Nome do animal"
-              id="NomeAnimal"
+              id="nome_do_animal"
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="Raca"
+              name="especie_do_animal"
+              label="Especie do animal"
+              id="especie_do_animal"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="raca_do_animal"
               label="Raça do animal"
-              id="Raca"
+              id="raca_do_animal"
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="Porte"
+              name="porte_do_animal"
               label="Porte do animal"
-              id="Porte"
+              id="porte_do_animal"
             />
 
             <TextField
