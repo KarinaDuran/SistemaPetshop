@@ -6,7 +6,7 @@ const Scheduling = db.sequelize.define('agendamento', {
         type: db.Sequelize.STRING,
         primaryKey: true
     },
-    data: {
+    dia: {
         type: db.Sequelize.DATEONLY
     },
     horario: {
@@ -14,6 +14,10 @@ const Scheduling = db.sequelize.define('agendamento', {
     },
     fk_id_animal:{
         type: db.Sequelize.INTEGER,
+        references: {
+            model: 'Animais',
+            key: 'id_animal'
+          }
     }
 }
 , {
@@ -21,4 +25,4 @@ const Scheduling = db.sequelize.define('agendamento', {
     freezeTableName: true,
 });
 
-module.exports = User;
+module.exports = Scheduling;

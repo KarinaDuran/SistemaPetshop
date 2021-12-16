@@ -1,5 +1,6 @@
 const db = require('../database/db');
 const {DataTypes} = require('sequelize');
+const User = require('../models/user')
 
 const Animal = db.sequelize.define('animais', {
     id_animal: {
@@ -8,7 +9,11 @@ const Animal = db.sequelize.define('animais', {
         primaryKey: true
     },
     email: {
-        type: db.Sequelize.STRING
+        type: db.Sequelize.STRING,
+        references: {
+            model: 'User',
+            key: 'email'
+          }
     },
     especie_do_animal: {
         type: db.Sequelize.STRING
