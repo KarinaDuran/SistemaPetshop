@@ -41,22 +41,8 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const exampleData = [
-  { nome: 'Caio', horario: '12h', animal: 'AuAu' },
-  { nome: 'Vitor', horario: '13h', animal: 'Miau' },
-];
-// const agendamento = ({email/*, nome, telefone*/, id_animal/*, nomeAnimal, especie, Porte, Raca*/, horario, }) => {
-//   Axios.get('http://localhost:3001/Dashboard', {
-//     email/*, nome, telefone*/, id_animal,
-//     // nomeAnimal,
-//     // especie,
-//     // Porte,
-//     // Raca,
-//     horario,
-//   }).then((response) => {
-//     alert(response.data.msg);
-//   });
-// };
+
+
 const Schedule = ({ date, setDate }) => {
 const [AgendamentoData, setAgendamentoData] = useState([]);
 useEffect(()=> {

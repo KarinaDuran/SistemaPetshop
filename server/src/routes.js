@@ -15,7 +15,9 @@ routes.get('/', (req, res) => {
 routes.post('/cadastro', userController.criaUser);
 routes.post('/login', userController.login);
 routes.get('/Dashboard', schedullingController.mostrarHorario);
-routes.get('/agendamento', schedullingController.horarioLivre);
+routes.get('/Agendamento', schedullingController.horarioLivre);
+routes.post('/Agendamento', schedullingController.reservaHorario);
+
 // routes.all('/*', async (req, res) => {
 //     console.log(req.url)
 //     regex = new RegExp("[/]|[?]")

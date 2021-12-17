@@ -4,11 +4,9 @@ import { Button } from '@mui/material';
 
 const Home = () => {
     return (
-
-
         <div style={{
             backgroundImage: "url(/dog-walking.gif)",
-            backgroundRepeat: "no-repeat", backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
             maxWidth: 'false',
             backgroundSize: "auto", backgroundPositionX: "center", backgroundPositionY: "center",
             backgroundColor: "#f6decf", top: 0,
