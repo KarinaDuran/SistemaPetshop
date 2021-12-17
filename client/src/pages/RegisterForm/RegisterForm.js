@@ -1,5 +1,5 @@
 
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import * as yup from 'yup';
 import Axios from 'axios';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -24,7 +24,7 @@ const RegisterForm = () => {
   const [values, setValues] = useState({});
 
   const handleInputChange = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     setValues({
       ...values,
       [name]: value
@@ -32,17 +32,14 @@ const RegisterForm = () => {
   }
 
   const handleRegister = async (e) => {
-    debugger;
     Axios.post(
       "http://localhost:3001/cadastro",
       values
     )
       .then(function (response) {
         //handle success
-        debugger;
-        alert(response.data.msg);
-
-        console.log(response);
+        alert(response.data.statusText);
+        if(response.data.status == 201) window.location.href = "/Login";
       })
       .catch(function (response) {
         //handle error

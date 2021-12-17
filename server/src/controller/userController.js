@@ -6,7 +6,6 @@ const saltRounds = 10;
 
 module.exports = {
   async criaUser(req, res){
-    console.log(req.body.email);
       const email = req.body.email;
       const nome = req.body.nome;
       const telefone = req.body.telefone;
@@ -15,9 +14,12 @@ module.exports = {
       const porte_do_animal =  req.body.porte_do_animal;
       const raca_do_animal = req.body.raca_do_animal; 
       const senha = req.body.senha;
-    try{
+ 
     mesmoMail = await User.findOne({where: {email: email}})
-    if (mesmoMail) throw 400; 
+    if (mesmoMail){
+
+       res.send({status: 400, data: {message: email}, statusText: 'email já cadastrado'});
+    } else{
     bcrypt.hash(senha, saltRounds, (err, hash) => {
         user = User.create({
           email: email,
@@ -36,11 +38,7 @@ module.exports = {
         res.send({status: 201, data: {message: email}, statusText: 'Cadastro realizado com sucesso'});
       })
     } 
-    catch(erro){
-      res.send({status: 400, data: {message: email}, statusText: 'email já cadastrado'});
-      // mesmoMail = await User.findOne({where: {email: email}})
-      // if (mesmoMail) res.send({status: 400, data: {message: email}, statusText: 'email já cadastrado'});
-    }
+
   },
   
   async login(req, res){
@@ -48,13 +46,15 @@ module.exports = {
     const senha = req.body.senha;
     const user = await User.findOne({where: {email: email}})
     if(!user) res.send({status: 400, data: {message: email}, statusText: 'email não encontrado'})
+    else{
     bcrypt.compare(senha, user.dataValues.senha, (error, response) => {
           if (error)  res.send(error);
           if (response){
             res.send({email: email, admin: email == 'administrador@gmail.com', data:{message: email}, statusText: 'sucesso'} );
      } else res.send({status: 401, data: {message: email}, statusText: 'Senha Incorreta'})
 
-    })  
+    }) 
+  } 
   }
 }
 
