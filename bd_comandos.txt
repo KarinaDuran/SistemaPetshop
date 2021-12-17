@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS agendamento(
         id_Agendamento int NOT NULL AUTO_INCREMENT,
 		email VARCHAR(200),
         horario VARCHAR(200),
-        data DATE,
+        dia DATE,
         fk_id_animal int,
 		PRIMARY KEY(id_Agendamento),
 		FOREIGN KEY(email) REFERENCES usuarios(email),
