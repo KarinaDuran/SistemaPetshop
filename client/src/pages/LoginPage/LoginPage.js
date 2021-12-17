@@ -29,7 +29,7 @@ const LoginPage = () => {
       [name]: value
     })
   }
-
+ const username = localStorage.getItem(values.email);
   const handleLogin = async (e) => {
     Axios.post(
       "http://localhost:3001/login",
@@ -42,8 +42,9 @@ const LoginPage = () => {
       
         }else{
           if (response.data.admin) window.location.href = "/Dashboard";
-          else window.location.href = "/Agendamento";
-        }
+          else{ window.location.href = "/Agendamento";
+        localStorage.setItem('email', values.email);
+                }        }
       })
       .catch(function (response) {
         //handle error
@@ -51,7 +52,7 @@ const LoginPage = () => {
       });
 
   };
-
+  
   const validationsLogin = yup.object().shape({
     email: yup
       .string()
