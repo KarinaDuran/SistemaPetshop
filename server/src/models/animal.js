@@ -10,10 +10,6 @@ const Animal = db.sequelize.define('animais', {
     },
     email: {
         type: db.Sequelize.STRING,
-        references: {
-            model: 'User',
-            key: 'email'
-          }
     },
     especie_do_animal: {
         type: db.Sequelize.STRING
@@ -33,5 +29,7 @@ const Animal = db.sequelize.define('animais', {
     timestamps: false,
     freezeTableName: true,
 });
+
+
 
 module.exports = Animal;

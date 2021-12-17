@@ -14,15 +14,14 @@ module.exports ={
             email: email,
             horario: horario,
         })
-        return {status: 201, data: {message: email}, statusText: 'erro'}
+        res.send({status: 201, data: {message: email}, statusText: 'erro'})
     }, 
     async mostrarHorario(req,res){
         lista = [];
-        // const data = req.body.data;
-        scheduling = await Scheduling.findAll(/*{where: {data: data}}*/
-            include[{
-                model
-            }]);
+        console.log(req.query);
+        const data = req.query.dia;
+        scheduling = await Scheduling.findAll({where: {dia: data}}
+        );
         for(const s of scheduling){
             lista.push({
                 email: s.dataValues.email,

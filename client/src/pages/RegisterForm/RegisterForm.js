@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, {useState} from 'react';
 import * as yup from 'yup';
 import Axios from 'axios';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -19,37 +19,38 @@ import PetsIcon from '@mui/icons-material/Pets';
 
 const theme = createTheme(themeDefault);
 
+
 const RegisterForm = () => {
-  const handleRegister = async (values) => {
-    debugger
-    Axios({
-      method: "post",
-      url: "http://localhost:3001/cadastro",
-      data: values,
-      headers: { "Content-Type": "multipart/form-data" },
+  const [values, setValues] = useState({});
+
+  const handleInputChange = (e) => {
+    const {name, value} = e.target;
+    setValues({
+      ...values,
+      [name]: value
     })
+  }
+
+  const handleRegister = async (e) => {
+    debugger;
+    Axios.post(
+      "http://localhost:3001/cadastro",
+      values
+    )
       .then(function (response) {
         //handle success
+        debugger;
+        alert(response.data.msg);
+
         console.log(response);
       })
       .catch(function (response) {
         //handle error
         console.log(response);
       });
-    // await Axios.post("", {
-    //   email: values.email,
-    //   nome: values.nome,
-    //   telefone: values.telefone,
-    //   nome_do_animal: values.nome_do_animal,
-    //   especie_do_animal: values.especie_do_animal,
-    //   porte_do_animal: values.porte_do_animal,
-    //   raca_do_animal: values.raca_do_animal,
-    //   senha: values.senha,
-    // }).then((response) => {
-    //   alert(response.data.msg);
 
-    // });
   };
+
 
   const validationsRegister = yup.object().shape({
     email: yup
@@ -97,6 +98,7 @@ const RegisterForm = () => {
               id="nome"
               label="Nome"
               name="nome"
+              onChange={handleInputChange}
             />
             <TextField
               margin="normal"
@@ -105,6 +107,7 @@ const RegisterForm = () => {
               name="email"
               label="email"
               id="email"
+              onChange={handleInputChange}
             />
             <TextField
               margin="normal"
@@ -112,6 +115,7 @@ const RegisterForm = () => {
               name="telefone"
               label="telefone"
               id="telefone"
+              onChange={handleInputChange}
             />
 
             <TextField
@@ -121,6 +125,7 @@ const RegisterForm = () => {
               name="nome_do_animal"
               label="Nome do animal"
               id="nome_do_animal"
+              onChange={handleInputChange}
             />
             <TextField
               margin="normal"
@@ -129,6 +134,7 @@ const RegisterForm = () => {
               name="especie_do_animal"
               label="Especie do animal"
               id="especie_do_animal"
+              onChange={handleInputChange}
             />
             <TextField
               margin="normal"
@@ -137,6 +143,7 @@ const RegisterForm = () => {
               name="raca_do_animal"
               label="Raça do animal"
               id="raca_do_animal"
+              onChange={handleInputChange}
             />
             <TextField
               margin="normal"
@@ -145,6 +152,7 @@ const RegisterForm = () => {
               name="porte_do_animal"
               label="Porte do animal"
               id="porte_do_animal"
+              onChange={handleInputChange}
             />
 
             <TextField
@@ -155,6 +163,7 @@ const RegisterForm = () => {
               label="Senha"
               type="password"
               id="senha"
+              onChange={handleInputChange}
             />
             <TextField
               margin="normal"

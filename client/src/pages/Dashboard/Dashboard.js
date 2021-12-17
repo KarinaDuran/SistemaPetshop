@@ -1,5 +1,6 @@
 import { styled } from '@mui/material/styles';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
+import Axios from 'axios';
 import {
   AppBar as MuiAppBar,
   Box,
@@ -44,9 +45,36 @@ const exampleData = [
   { nome: 'Caio', horario: '12h', animal: 'AuAu' },
   { nome: 'Vitor', horario: '13h', animal: 'Miau' },
 ];
+// const agendamento = ({email/*, nome, telefone*/, id_animal/*, nomeAnimal, especie, Porte, Raca*/, horario, }) => {
+//   Axios.get('http://localhost:3001/Dashboard', {
+//     email/*, nome, telefone*/, id_animal,
+//     // nomeAnimal,
+//     // especie,
+//     // Porte,
+//     // Raca,
+//     horario,
+//   }).then((response) => {
+//     alert(response.data.msg);
+//   });
+// };
+const Schedule = ({ date, setDate }) => {
+const [AgendamentoData, setAgendamentoData] = useState([]);
+useEffect(()=> {
+  if(date)agendamento()
+}, [date])
 
-const Schedule = ({ date, setDate }) => (
-  <Fragment>
+useEffect(()=> {
+  window.test = AgendamentoData
+}, [AgendamentoData])
+const agendamento = async () => {
+  Axios.get('http://localhost:3001/Dashboard', {
+    params: {dia: `${date.getMonth()+1}` + "/" + `${date.getDate()}` +"/" + `${date.getFullYear()}`},  
+}).then((response) => {
+    setAgendamentoData(response.data);
+  });
+};
+return(
+<Fragment>
     <Typography
       component="h2"
       variant="h6"
@@ -77,11 +105,12 @@ const Schedule = ({ date, setDate }) => (
         </TableRow>
       </TableHead>
       <TableBody>
-        {exampleData.map((row) => (
+      {AgendamentoData.map&&
+        AgendamentoData.map((row) => (
           <TableRow>
-            <TableCell>{row.nome}</TableCell>
+            <TableCell>{row.email}</TableCell>
             <TableCell>{row.horario}</TableCell>
-            <TableCell>{row.animal}</TableCell>
+            <TableCell>{row.id_animal}</TableCell>
           </TableRow>
         ))}
       </TableBody>
@@ -89,7 +118,12 @@ const Schedule = ({ date, setDate }) => (
   </Fragment>
 );
 
+}
+
+
 const Dashboard = () => {
+
+
   const [date, setDate] = useState(new Date());
 
   return (
