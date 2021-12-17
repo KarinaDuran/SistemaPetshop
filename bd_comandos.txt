@@ -38,16 +38,16 @@ INSERT INTO usuarios(email,senha) VALUES(administrador@gmail.com, "admin123");
  
 
 CREATE TABLE IF NOT EXISTS agendamento(
-        
+        id_Agendamento int NOT NULL AUTO_INCREMENT,
 		email VARCHAR(200),
         horario VARCHAR(200),
         data DATE,
         fk_id_animal int,
-
-		PRIMARY KEY(horario),
-		FOREIGN KEY(email) REFERENCES usuarios(email)
+		PRIMARY KEY(id_Agendamento),
+		FOREIGN KEY(email) REFERENCES usuarios(email),
         FOREIGN KEY(fk_id_animal) REFERENCES animais(id_animal)
 );
+
 
 
  
