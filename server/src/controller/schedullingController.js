@@ -1,6 +1,6 @@
 const db = require('../database/db');
 const Scheduling = require('../models/scheduling')
-const animal = require('../models/animal')
+const Animal = require('../models/animal')
 const user = require('../models/user')
 
 
@@ -28,9 +28,16 @@ module.exports ={
         scheduling = await Scheduling.findAll({where: {dia: data}}
         );
         for(const s of scheduling){
+            animal = await Animal.findOne({where: {id_animal: s.dataValues.id_animal}});
+            user = await User.findOne({where: {email: s.dataValues.email}});
             lista.push({
+                nome: user.dataValues.nome,
+                telefone: user.dataValues.telefone,
                 email: s.dataValues.email,
-                id_animal: s.fk_id_animal,
+                nome_do_animal: animal.dataValues.nome_do_animal,
+                especie_do_animal: animal.dataValues.especie_do_animal,
+                porte_do_animal: animal.dataValues.porte_do_animal,
+                raca_do_animal: animal.dataValues.raca_do_animal,
                 horario: s.dataValues.horario
             })
         }
