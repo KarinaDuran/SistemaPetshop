@@ -4,6 +4,7 @@ import Axios from 'axios';
 import {
   AppBar as MuiAppBar,
   Box,
+  Button,
   Container,
   Toolbar,
   Grid,
@@ -15,6 +16,7 @@ import {
   TableCell,
   TableBody,
   TextField,
+  TableContainer,
 } from '@mui/material';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -41,76 +43,121 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-
-
 const Schedule = ({ date, setDate }) => {
-const [AgendamentoData, setAgendamentoData] = useState([]);
-useEffect(()=> {
-  if(date)agendamento()
-}, [date])
+  const [AgendamentoData, setAgendamentoData] = useState([]);
+  const [authorizedAccess, setAuthorizedAccess] = useState(false);
 
-useEffect(()=> {
-  window.test = AgendamentoData
-}, [AgendamentoData])
-const agendamento = async () => {
-  Axios.get('http://localhost:3001/Dashboard', {
-    params: {dia: `${date.getMonth()+1}` + "/" + `${date.getDate()}` +"/" + `${date.getFullYear()}`},  
-}).then((response) => {
-    setAgendamentoData(response.data);
-  });
+  useEffect(async () => {
+    await Axios.get('http://localhost:3001/validateCredentials', {
+      params: { email: localStorage.getItem('email') },
+    })
+      .then((response) => {
+        console.log(response);
+        if (response.data.valid && response.data.admin)
+          setAuthorizedAccess(true);
+        else if (response.data.valid && !response.data.admin)
+          window.location.href = '/Agendamento';
+        else {
+          localStorage.removeItem('email');
+          window.location.href = '/login';
+        }
+      })
+      .catch((response) => {
+        //handle error
+        console.log('error:' + response);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (date) agendamento();
+  }, [date]);
+
+  useEffect(() => {
+    window.test = AgendamentoData;
+  }, [AgendamentoData]);
+
+  const agendamento = async () => {
+    Axios.get('http://localhost:3001/Dashboard', {
+      params: {
+        dia:
+          `${date.getMonth() + 1}` +
+          '/' +
+          `${date.getDate()}` +
+          '/' +
+          `${date.getFullYear()}`,
+      },
+    }).then((response) => {
+      setAgendamentoData(response.data);
+    });
+  };
+
+  return authorizedAccess ? (
+    <Fragment>
+      <Typography
+        component="h2"
+        variant="h6"
+        color="primary"
+        gutterBottom
+        inline
+        pb={2}
+      >
+        Agendamentos
+      </Typography>
+      <LocalizationProvider dateAdapter={AdapterDateFns} locale={ptBRLocale}>
+        <DatePicker
+          label="Data"
+          renderInput={(params) => <TextField {...params} sx={{ pb: 2 }} />}
+          value={date}
+          onChange={(newValue) => {
+            console.log(newValue);
+            setDate(newValue);
+          }}
+        />
+      </LocalizationProvider>
+      <TableContainer sx={{ pb: 2 }}>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>Horário</TableCell>
+              <TableCell>Nome</TableCell>
+              <TableCell>Telefone</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Nome do animal</TableCell>
+              <TableCell>Espécie</TableCell>
+              <TableCell>Porte</TableCell>
+              <TableCell>Raça</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {AgendamentoData.map &&
+              AgendamentoData.map((row) => (
+                <TableRow>
+                  <TableCell>{row.horario}</TableCell>
+                  <TableCell>{row.nome}</TableCell>
+                  <TableCell>{row.telefone}</TableCell>
+                  <TableCell>{row.email}</TableCell>
+                  <TableCell>{row.nome_do_animal}</TableCell>
+                  <TableCell>{row.especie_do_animal}</TableCell>
+                  <TableCell>{row.porte_do_animal}</TableCell>
+                  <TableCell>{row.raca_do_animal}</TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Fragment>
+  ) : (
+    <>Carregando...</>
+  );
 };
-return(
-<Fragment>
-    <Typography
-      component="h2"
-      variant="h6"
-      color="primary"
-      gutterBottom
-      inline
-      pb={2}
-    >
-      Agendamentos
-    </Typography>
-    <LocalizationProvider dateAdapter={AdapterDateFns} locale={ptBRLocale}>
-      <DatePicker
-        label="Data"
-        renderInput={(params) => <TextField {...params} sx={{ pb: 2 }} />}
-        value={date}
-        onChange={(newValue) => {
-          console.log(newValue);
-          setDate(newValue);
-        }}
-      />
-    </LocalizationProvider>
-    <Table size="small">
-      <TableHead>
-        <TableRow>
-          <TableCell>Nome</TableCell>
-          <TableCell>Horário</TableCell>
-          <TableCell>Animal</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-      {AgendamentoData.map&&
-        AgendamentoData.map((row) => (
-          <TableRow>
-            <TableCell>{row.email}</TableCell>
-            <TableCell>{row.horario}</TableCell>
-            <TableCell>{row.id_animal}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </Fragment>
-);
-
-}
-
 
 const Dashboard = () => {
-
-
   const [date, setDate] = useState(new Date());
+
+  const logout = () => {
+    localStorage.removeItem('email');
+    window.location.href = '/login';
+  };
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -125,6 +172,9 @@ const Dashboard = () => {
           >
             Dashboard
           </Typography>
+          <Button variant="outlined" color="secondary" onClick={logout}>
+            Sair
+          </Button>
         </Toolbar>
       </AppBar>
       <Box

@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS animais(
 
 
 
-INSERT INTO usuarios(email,senha) VALUES(administrador@gmail.com, "admin123");
+INSERT INTO usuarios(email,senha) VALUES(administrador@gmail.com, "$2b$10$zHEacGta51C2rN2hO71A3O4yF.oO487pljK.pSNMhTDXvXbnjg60K");
 
  
 

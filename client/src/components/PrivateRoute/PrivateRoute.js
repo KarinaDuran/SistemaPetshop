@@ -1,20 +1,22 @@
-import { Redirect } from "react-router";
+import { Redirect } from 'react-router';
+import { Route } from 'react-router-dom';
+
 const PrivateRoute = ({ component: Component, ...props }) => {
   return (
     <Route
       {...props}
-      render={innerProps =>
-        localStorage.getItem("email") ? (
+      render={(innerProps) =>
+        localStorage.getItem('email') ? (
           <Component {...innerProps} />
         ) : (
           <Redirect
             to={{
-              pathname: "/login",
+              pathname: '/login',
             }}
           />
         )
       }
     />
-  )
-    };
-export default PrivateRoute
+  );
+};
+export default PrivateRoute;

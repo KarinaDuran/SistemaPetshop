@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import * as yup from 'yup';
 import Axios from 'axios';
@@ -14,11 +13,11 @@ import {
   Link,
   TextField,
   Typography,
+  MenuItem,
 } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
 
 const theme = createTheme(themeDefault);
-
 
 const RegisterForm = () => {
   const [values, setValues] = useState({});
@@ -27,27 +26,25 @@ const RegisterForm = () => {
     const { name, value } = e.target;
     setValues({
       ...values,
-      [name]: value
-    })
-  }
+      [name]: value,
+    });
+  };
 
   const handleRegister = async (e) => {
-    Axios.post(
-      "http://localhost:3001/cadastro",
-      values
-    )
+    Axios.post('http://localhost:3001/cadastro', values)
       .then(function (response) {
         //handle success
         alert(response.data.statusText);
-        if(response.data.status == 201) window.location.href = "/Login";
+        if (response.data.status === 200) {
+          alert('Cadastro realizado com sucesso');
+          window.location.href = '/login';
+        }
       })
       .catch(function (response) {
         //handle error
         console.log(response);
       });
-
   };
-
 
   const validationsRegister = yup.object().shape({
     email: yup
@@ -102,7 +99,7 @@ const RegisterForm = () => {
               required
               fullWidth
               name="email"
-              label="email"
+              label="Email"
               id="email"
               onChange={handleInputChange}
             />
@@ -110,7 +107,7 @@ const RegisterForm = () => {
               margin="normal"
               fullWidth
               name="telefone"
-              label="telefone"
+              label="Telefone"
               id="telefone"
               onChange={handleInputChange}
             />
@@ -129,10 +126,14 @@ const RegisterForm = () => {
               required
               fullWidth
               name="especie_do_animal"
-              label="Especie do animal"
+              label="Espécie do animal"
               id="especie_do_animal"
               onChange={handleInputChange}
-            />
+              select
+            >
+              <MenuItem value={'Cachorro'}>Cachorro</MenuItem>
+              <MenuItem value={'Gato'}>Gato</MenuItem>
+            </TextField>
             <TextField
               margin="normal"
               required
@@ -150,7 +151,12 @@ const RegisterForm = () => {
               label="Porte do animal"
               id="porte_do_animal"
               onChange={handleInputChange}
-            />
+              select
+            >
+              <MenuItem value={'P'}>Pequeno</MenuItem>
+              <MenuItem value={'M'}>Médio</MenuItem>
+              <MenuItem value={'G'}>Grande</MenuItem>
+            </TextField>
 
             <TextField
               margin="normal"

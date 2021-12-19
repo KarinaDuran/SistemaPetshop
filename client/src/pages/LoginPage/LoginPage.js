@@ -16,7 +16,6 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import PetsIcon from '@mui/icons-material/Pets';
 import themeDefault from '../../theme';
 
-
 const theme = createTheme(themeDefault);
 
 const LoginPage = () => {
@@ -26,33 +25,32 @@ const LoginPage = () => {
     const { name, value } = e.target;
     setValues({
       ...values,
-      [name]: value
-    })
-  }
- const username = localStorage.getItem(values.email);
+      [name]: value,
+    });
+  };
+  const username = localStorage.getItem(values.email);
   const handleLogin = async (e) => {
-    Axios.post(
-      "http://localhost:3001/login",
-      values
-    )
+    await Axios.post('http://localhost:3001/login', values)
       .then(function (response) {
         //handle success
-        alert(response.data.statusText);
+        console.log(response);
         if (response.data.status == 401 || response.data.status == 400) {
-      
-        }else{
-          if (response.data.admin) window.location.href = "/Dashboard";
-          else{ window.location.href = "/Agendamento";
-        localStorage.setItem('email', values.email);
-                }        }
+          alert('Erro no login');
+        } else {
+          localStorage.setItem('email', values.email);
+          if (response.data.admin) window.location.href = '/Dashboard';
+          else {
+            window.location.href = '/Agendamento';
+            localStorage.setItem('email', values.email);
+          }
+        }
       })
       .catch(function (response) {
         //handle error
         console.log(response);
       });
-
   };
-  
+
   const validationsLogin = yup.object().shape({
     email: yup
       .string()
@@ -85,13 +83,12 @@ const LoginPage = () => {
             validationSchema={validationsLogin}
             sx={{ mt: 1 }}
           >
-
             <TextField
               margin="normal"
               required
               fullWidth
               name="email"
-              label="email"
+              label="Email"
               id="email"
               onChange={handleInputChange}
             />
