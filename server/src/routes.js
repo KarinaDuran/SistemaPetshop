@@ -17,6 +17,7 @@ routes.post('/login', userController.login);
 routes.get('/Dashboard', schedullingController.mostrarHorario);
 routes.get('/Agendamento', schedullingController.horarioLivre);
 routes.post('/Agendamento', schedullingController.reservaHorario);
+routes.get('/validateCredentials', userController.validateCredentials);
 
 // routes.all('/*', async (req, res) => {
 //     console.log(req.url)

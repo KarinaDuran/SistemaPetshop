@@ -55,6 +55,12 @@ module.exports = {
 
     }) 
   } 
+  },
+  async validateCredentials(req, res){
+    const email = req.body.email;
+    const user = await User.findOne({where: {email: email}})
+    if(!user) res.send({data: {message: "usuario não encontrado"}, valid: false, admin:false});
+    res.send({data: {message: "usuario encontrado"}, valid: true, admin: email == 'administrador@gmail.com'})
   }
 }
 
