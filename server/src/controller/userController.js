@@ -76,6 +76,26 @@ module.exports = {
       });
     }
   },
+  async cadastraAnimal(req, res) {
+    const nome_do_animal = req.body.nome_do_animal;
+    const especie_do_animal = req.body.especie_do_animal;
+    const porte_do_animal = req.body.porte_do_animal;
+    const raca_do_animal = req.body.raca_do_animal;
+    const email = req.body.email;
+
+    animal = Animal.create({
+      email: email,
+      especie_do_animal: especie_do_animal,
+      nome_do_animal: nome_do_animal,
+      porte_do_animal: porte_do_animal,
+      raca_do_animal: raca_do_animal,
+    });
+    res.send({
+            data: { message: email },
+            statusText: 'sucesso'
+    })
+
+  },
   async validateCredentials(req, res) {
     try{
     const email = req.query.email;

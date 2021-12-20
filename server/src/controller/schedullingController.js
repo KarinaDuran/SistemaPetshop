@@ -80,3 +80,63 @@ module.exports = {
     res.send(lista);
   },
 };
+module.exports = {
+  async reservaHorario(req, res) {
+    console.log(req.body);
+    const email = req.body.email;
+    const horario = req.body.horario;
+    const dia = req.body.dia;
+    const fk_id_animal = 1;
+    if ((await horario) == 'Selecione o horario')
+      res.send({
+        status: 400,
+        data: { message: horario },
+        statusText: 'Selecione seu horário',
+      });
+    else {
+      scheduling = await Scheduling.create({
+        email: email,
+        horario: horario,
+        dia: dia,
+        fk_id_animal: fk_id_animal,
+      });
+      res.send({
+        status: 201,
+        data: { message: email },
+        statusText: 'Horario Agendado',
+      });
+    }
+  },
+  async mostrarHorarioUser(req, res) {
+    lista = [];
+    const usuario = req.query.usuario;
+    scheduling = await Scheduling.findAll({ where: { email: usuario } });
+    for (const s of scheduling) {
+      animal = await Animal.findOne({
+        where: { id_animal: s.dataValues.fk_id_animal },
+      });
+      user = await User.findOne({ where: { email: s.dataValues.email } });
+      lista.push({
+        nome: user.dataValues.nome,
+        telefone: user.dataValues.telefone,
+        email: s.dataValues.email,
+        nome_do_animal: animal.dataValues.nome_do_animal,
+        especie_do_animal: animal.dataValues.especie_do_animal,
+        porte_do_animal: animal.dataValues.porte_do_animal,
+        raca_do_animal: animal.dataValues.raca_do_animal,
+        horario: s.dataValues.horario,
+      });
+    }
+    res.send(lista);
+  },
+  async deletaHorário(req, res) {
+   hora = req.body.hora;
+   dia = req.body.dia;
+
+   agendamento = await Scheduling.findOne({ where: { hora: hora, dia: dia}})
+   if(!agendamento) res.send(false)
+   else await agendamento.destroy();
+   res.send(true);
+  }
+};
+  
