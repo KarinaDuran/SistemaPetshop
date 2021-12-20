@@ -9,7 +9,10 @@ module.exports = {
     const email = req.body.email;
     const horario = req.body.horario;
     const dia = req.body.dia;
-    const fk_id_animal = 1;
+    animal = await Animal.findOne({
+      where: { email: email },
+    });
+    const fk_id_animal = animal.id_animal;
     if ((await horario) == 'Selecione o horario')
       res.send({
         status: 400,
