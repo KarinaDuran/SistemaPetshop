@@ -79,34 +79,6 @@ module.exports = {
     }
     res.send(lista);
   },
-};
-module.exports = {
-  async reservaHorario(req, res) {
-    console.log(req.body);
-    const email = req.body.email;
-    const horario = req.body.horario;
-    const dia = req.body.dia;
-    const fk_id_animal = 1;
-    if ((await horario) == 'Selecione o horario')
-      res.send({
-        status: 400,
-        data: { message: horario },
-        statusText: 'Selecione seu horário',
-      });
-    else {
-      scheduling = await Scheduling.create({
-        email: email,
-        horario: horario,
-        dia: dia,
-        fk_id_animal: fk_id_animal,
-      });
-      res.send({
-        status: 201,
-        data: { message: email },
-        statusText: 'Horario Agendado',
-      });
-    }
-  },
   async mostrarHorarioUser(req, res) {
     lista = [];
     const usuario = req.query.usuario;
