@@ -9,11 +9,11 @@ module.exports = {
     const email = req.body.email;
     const nome = req.body.nome;
     const telefone = req.body.telefone;
-    const nome_do_animal = req.body.nome_do_animal;
-    const especie_do_animal = req.body.especie_do_animal;
-    const porte_do_animal = req.body.porte_do_animal;
-    const raca_do_animal = req.body.raca_do_animal;
-    const senha = req.body.senha;
+   // const nome_do_animal = req.body.nome_do_animal;
+   // const especie_do_animal = req.body.especie_do_animal;
+   // const porte_do_animal = req.body.porte_do_animal;
+   // const raca_do_animal = req.body.raca_do_animal;
+   // const senha = req.body.senha;
 
     mesmoMail = await User.findOne({ where: { email: email } });
     if (mesmoMail) {
@@ -30,13 +30,13 @@ module.exports = {
           telefone: telefone,
           senha: hash,
         });
-        animal = Animal.create({
-          email: email,
-          especie_do_animal: especie_do_animal,
-          nome_do_animal: nome_do_animal,
-          porte_do_animal: porte_do_animal,
-          raca_do_animal: raca_do_animal,
-        });
+        //animal = Animal.create({
+        //  email: email,
+         // especie_do_animal: especie_do_animal,
+         // nome_do_animal: nome_do_animal,
+         // porte_do_animal: porte_do_animal,
+          //raca_do_animal: raca_do_animal,
+        //});
 
         res.send({
           status: 201,
