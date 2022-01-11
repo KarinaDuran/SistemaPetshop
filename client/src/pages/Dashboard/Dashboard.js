@@ -23,9 +23,6 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import DatePicker from '@mui/lab/DatePicker';
 import ptBRLocale from 'date-fns/locale/pt-BR';
-import Quadro from "../Quadro/Quadro";
-// import { areDayPropsEqual } from '@mui/lab/PickersDay/PickersDay';
-// import { setDayWithOptions } from 'date-fns/fp';
 const drawerWidth = 240;
 
 
@@ -78,9 +75,7 @@ const Schedule = ({ date, setDate }) => {
   }, [date]);
 
 
-  const [hora, setHora] = useState([]);
-
-
+ 
   const agendamento = async () => {
     Axios.get('http://localhost:3001/Dashboard', {
       params: {
@@ -95,12 +90,6 @@ const Schedule = ({ date, setDate }) => {
       setAgendamentoData(response.data);
     });
   };
-  const [open, setOpen] = useState(false);
-
-  const handleClick = async (row) => {
-    setOpen(true);
-    if (row) setHora(row.horario);
-  };
 
   const handleDelete = (horario) => {
     const dia = `${date.getMonth() + 1}` +
@@ -108,7 +97,7 @@ const Schedule = ({ date, setDate }) => {
       `${date.getDate()}` +
       '/' +
       `${date.getFullYear()}`;
-    Axios.delete(`http://localhost:3001/deletarHorario/`, { data: { dia: dia, horario: horario } }).then(res => {
+    Axios.delete(`http://localhost:3001/Dashboard/`, { data: { dia: dia, horario: horario } }).then(res => {
       console.log(res);
       console.log(res.data);
 
@@ -149,17 +138,6 @@ const Schedule = ({ date, setDate }) => {
           }}
         />
       </LocalizationProvider>
-      {/* <Quadro
-        open={open}
-        setOpen={setOpen}
-        date={
-          `${date.getMonth() + 1}` +
-          '/' +
-          `${date.getDate()}` +
-          '/' +
-          `${date.getFullYear()}`}
-        horario={hora}
-      /> */}
       <TableContainer sx={{ pb: 2 }} >
         <Table size="small" >
           <TableHead>

@@ -21,7 +21,8 @@ const theme = createTheme(themeDefault);
 
 const AnimalRegister = () => {
   const [values, setValues] = useState({});
-  const [email, setEmail] = useState(localStorage.getItem('email'));
+  const [email] = useState(localStorage.getItem('email'));
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setValues({
@@ -31,7 +32,13 @@ const AnimalRegister = () => {
   };
 
   const handleRegisterPet = async (e) => {
-    Axios.post('http://localhost:3001/CadastroAnimal', values)
+    Axios.post('http://localhost:3001/CadastroAnimal',{
+    email: email,
+    nome_do_animal: values.nome_do_animal,
+    especie_do_animal: values.especie_do_animal,
+    porte_do_animal: values.porte_do_animal,
+    raca_do_animal: values.raca_do_animal
+  } )
       .then(function (response) {
         //handle success
         alert(response.data.statusText);
@@ -73,7 +80,7 @@ const AnimalRegister = () => {
             <PetsIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Cadastro
+            Cadastro de animais
           </Typography>
           <Box
             component="form"
@@ -81,7 +88,6 @@ const AnimalRegister = () => {
             validationSchema={validationsRegisterPet}
             sx={{ mt: 1 }}
           >
-
             <TextField
               margin="normal"
               required
@@ -134,11 +140,11 @@ const AnimalRegister = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Cadastrar
+              Cadastrar pet
             </Button>
             <Grid item>
               <Link href="/Agendamento" variant="body2">
-                Voltar
+                Voltar ao agendamento
               </Link>
             </Grid>
           </Box>

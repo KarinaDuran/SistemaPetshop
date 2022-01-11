@@ -9,21 +9,13 @@ module.exports = {
     const email = req.body.email;
     const nome = req.body.nome;
     const telefone = req.body.telefone;
-<<<<<<< HEAD
     // const nome_do_animal = req.body.nome_do_animal;
     // const especie_do_animal = req.body.especie_do_animal;
     // const porte_do_animal = req.body.porte_do_animal;
     // const raca_do_animal = req.body.raca_do_animal;
     const senha = req.body.senha;
-=======
-   // const nome_do_animal = req.body.nome_do_animal;
-   // const especie_do_animal = req.body.especie_do_animal;
-   // const porte_do_animal = req.body.porte_do_animal;
-   // const raca_do_animal = req.body.raca_do_animal;
-   // const senha = req.body.senha;
->>>>>>> 4124d4db288f1d27283f67c3f0352f5f3146919c
 
-    
+
 
     mesmoMail = await User.findOne({ where: { email: email } });
     if (mesmoMail) {
@@ -40,23 +32,13 @@ module.exports = {
           telefone: telefone,
           senha: hash,
         });
-<<<<<<< HEAD
-        // animal = Animal.create({
-        //   email: email,
-        //   especie_do_animal: especie_do_animal,
-        //   nome_do_animal: nome_do_animal,
-        //   porte_do_animal: porte_do_animal,
-        //   raca_do_animal: raca_do_animal,
-        // });
-=======
         //animal = Animal.create({
         //  email: email,
-         // especie_do_animal: especie_do_animal,
-         // nome_do_animal: nome_do_animal,
-         // porte_do_animal: porte_do_animal,
-          //raca_do_animal: raca_do_animal,
+        // especie_do_animal: especie_do_animal,
+        // nome_do_animal: nome_do_animal,
+        // porte_do_animal: porte_do_animal,
+        //raca_do_animal: raca_do_animal,
         //});
->>>>>>> 4124d4db288f1d27283f67c3f0352f5f3146919c
 
         res.send({
           status: 201,
@@ -111,45 +93,46 @@ module.exports = {
       raca_do_animal: raca_do_animal,
     });
     res.send({
-            data: { message: email },
-            statusText: 'sucesso'
+      data: { message: email },
+      statusText: 'sucesso'
     })
 
   },
   async animaisDoUsuario(req, res) {
     lista = [];
-    console.log(req.query.email);
     const email = req.query.email;
-    const animais = await Animal.findAll({ where: { email: email } });
-    for (a in animais){
-      lista.push({
-        nome_do_animal: a.nome_do_animal});
+    const animalUsuario = await Animal.findAll({ where: { email: email } });
+    for (const a of animalUsuario) {
+      const nome_do_animal = a.dataValues.nome_do_animal;
+      lista.push(
+        nome_do_animal  
+      );
     }
-    res.send(lista)
+    res.send(lista);
   },
 
   async validateCredentials(req, res) {
-    try{
-    const email = req.query.email;
-    const user = await User.findOne({ where: { email: email } });
-    if (!user)
+    try {
+      const email = req.query.email;
+      const user = await User.findOne({ where: { email: email } });
+      if (!user)
+        res.send({
+          data: { message: 'usuario não encontrado' },
+          valid: false,
+          admin: false,
+        });
+      res.send({
+        data: { message: 'usuario encontrado' },
+        valid: true,
+        admin: email == 'administrador@gmail.com',
+      });
+    }
+    catch (error) {
       res.send({
         data: { message: 'usuario não encontrado' },
         valid: false,
         admin: false,
       });
-    res.send({
-      data: { message: 'usuario encontrado' },
-      valid: true,
-      admin: email == 'administrador@gmail.com',
-    });
-  } 
-  catch (error){
-    res.send({
-      data: { message: 'usuario não encontrado' },
-      valid: false,
-      admin: false,
-    });
-  }
+    }
   },
 };

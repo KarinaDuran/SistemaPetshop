@@ -1,10 +1,9 @@
 import React from 'react';
 import { useState, useEffect, Fragment } from 'react';
 import Axios from 'axios';
-import Quadro from "./Quadro/Quadro";
-// import Select from 'react-select';
 import themeDefault from '../theme';
 import select from '@mui/material/Select';
+import * as yup from 'yup';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import {
   Avatar,
@@ -68,19 +67,13 @@ const UserPage = () => {
       });
   }, []);
 
-  useEffect(() => {
+  useEffect(async () => {
     if (date) agendamento();
   }, [date]);
-  useEffect(() => {
-    if (date) agendaUsuario();
-  }, [date]);
 
-  const handleClick = async (event) => {
-    setOpen(true);
-  };
-  const [open, setOpen] = React.useState(false);
+
   const agendamento = async () => {
-    Axios.get('http://localhost:3001/Agendamento', {
+    await Axios.get('http://localhost:3001/Agendamento', {
       params: {
         dia:
           `${date.getMonth() + 1}` +
@@ -88,48 +81,43 @@ const UserPage = () => {
           `${date.getDate()}` +
           '/' +
           `${date.getFullYear()}`,
+          email:email
       },
     }).then((response) => {
-      setHora(response.data);
-    });
-  };
-
-  const agendaUsuario = async () => {
-    Axios.get('http://localhost:3001/AgendaUsuario', {
-      params: {
-        email: email,
-      },
-    }).then((response) => {
-      setAgenda(response.data);
+      setAgenda(response.data[0].agenda);
+      setAnimais(response.data[0].animais)
+      setHora(response.data[0].horarios);
     });
   };
 
 
-    const pets = async () => {
-    Axios.get('http://localhost:3001/animaisUsuario', {
-      params: {
-        email: email,
-      },
-    }).then((response) => {
-      setAnimais(response.data);
-    });
-  };
 
-  // useEffect(() => {
-  //  if(date) pets();
-  // }, [animais]);
   const handleUser = async (e) => {
-    Axios.post('http://localhost:3001/Agendamento', {
-      email: email,
-      dia:
-        `${date.getMonth() + 1}` +
-        '/' +
-        `${date.getDate()}` +
-        '/' +
-        `${date.getFullYear()}`,
-      horario: horario,
-    })
-      .then(function (response) {
+    await
+      Axios.post('http://localhost:3001/Agendamento', {
+        email: email,
+        dia:
+          `${date.getMonth() + 1}` +
+          '/' +
+          `${date.getDate()}` +
+          '/' +
+          `${date.getFullYear()}`,
+        horario: horario,
+        animal: animal
+      })
+        .then(function (response) {
+          //handle success
+          alert(response.data.statusText);
+        })
+        .catch(function (response) {
+          //handle error
+          console.log(response);
+        });
+  };
+
+  const handleDelete = async(horario, dataHorario) => {
+
+    await Axios.delete(`http://localhost:3001/Agendamento/`, { data: { dia: dataHorario, horario: horario } }).then(function (response) {
         //handle success
         alert(response.data.statusText);
       })
@@ -137,27 +125,51 @@ const UserPage = () => {
         //handle error
         console.log(response);
       });
+   
+    
+
+    // agendamento();
+
   };
 
-  const handleDelete = (horario, dataHorario) => {
+  const validationAgendamento = yup.object().shape({
+    pet: yup
+      .string()
+      .required('O pet é obrigatório'),
+      horario: yup
+      .string()
+      .required('O horario é obrigatório'),
 
-    Axios.delete(`http://localhost:3001/deletarHorario/`, { data: { dia: dataHorario, horario: horario } }).then(res => {
-      console.log(res);
-      console.log(res.data);
-
-    })
+  });
+  const logout = (e) => {
+    localStorage.removeItem('email');
+    window.location.href = '/login';
   };
   return authorizedAccess ? (
     <ThemeProvider theme={theme}>
+      <Grid container sx={{
+        marginTop: 2, width: 10, position: "absolute",
+        top: 5,
+        right: 100,
+      }}>
+        <Grid item>
+          <Button variant="contained" fullWidth onClick={logout}>
+            Sair
+          </Button>
+        </Grid>
+      </Grid>
+
       <Container component="main" maxWidth="xs">
+
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 1,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}
+          
         >
 
           <Avatar sx={{ m: 1, bgcolor: '#FFA466' }}>
@@ -166,7 +178,7 @@ const UserPage = () => {
           <Typography component="h1" variant="h5">
             Agendamento
           </Typography>
-          <Box component="form" onSubmit={handleUser} sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleUser} sx={{ mt: 1 }} validationSchema={validationAgendamento}>
             <TextField
               margin="normal"
               required
@@ -179,8 +191,24 @@ const UserPage = () => {
               onChange={(event) => {
                 setEmail(event.target.value);
               }}
-              sx={{ pb: 2 }}
+              sx={{ pb: 1 }}
             />
+            <TextField
+              fullWidth
+              required
+              value={animal}
+              onChange={(event) => setAnimal(event.target.value)}
+              select // tell TextField to render select
+              label="Pets"
+              id="pet"
+              sx={{ pb: 2 }}
+            >
+              {animais.map((a) => (
+                <MenuItem value={a}>{a}</MenuItem>
+              ))}
+            </TextField>
+
+
             <LocalizationProvider
               dateAdapter={AdapterDateFns}
               locale={ptBRLocale}
@@ -201,26 +229,17 @@ const UserPage = () => {
             <TextField
               fullWidth
               value={horario}
+              required
               onChange={(event) => setHorario(event.target.value)}
               select // tell TextField to render select
               label="Horario"
+              id="horario"
             >
               {hora.map((h) => (
                 <MenuItem value={h}>{h}</MenuItem>
               ))}
             </TextField>
 
-            <TextField
-              fullWidth
-              value={animal}
-              onChange={(event) => setAnimal(event.target.value)}
-              select // tell TextField to render select
-              label="Pets"
-            >
-              {animais.map((a) => (
-                <MenuItem value={a}>{a}</MenuItem>
-              ))}
-            </TextField>
             <Button
               type="submit"
               fullWidth
@@ -229,7 +248,6 @@ const UserPage = () => {
             >
               Marcar Horário
             </Button>
-
             <Grid container>
               <Grid item>
                 <Link href="/cadastroAnimal" variant="body2">
