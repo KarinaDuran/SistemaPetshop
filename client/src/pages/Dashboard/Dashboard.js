@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { styled } from '@mui/material/styles';
 import React, { Fragment, useEffect, useState } from 'react';
 import Axios from 'axios';
@@ -22,8 +23,11 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import DatePicker from '@mui/lab/DatePicker';
 import ptBRLocale from 'date-fns/locale/pt-BR';
-
+import Quadro from "../Quadro/Quadro";
+// import { areDayPropsEqual } from '@mui/lab/PickersDay/PickersDay';
+// import { setDayWithOptions } from 'date-fns/fp';
 const drawerWidth = 240;
+
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -68,13 +72,14 @@ const Schedule = ({ date, setDate }) => {
       });
   }, []);
 
+
   useEffect(() => {
     if (date) agendamento();
   }, [date]);
 
-  useEffect(() => {
-    window.test = AgendamentoData;
-  }, [AgendamentoData]);
+
+  const [hora, setHora] = useState([]);
+
 
   const agendamento = async () => {
     Axios.get('http://localhost:3001/Dashboard', {
@@ -90,8 +95,28 @@ const Schedule = ({ date, setDate }) => {
       setAgendamentoData(response.data);
     });
   };
+  const [open, setOpen] = useState(false);
+
+  const handleClick = async (row) => {
+    setOpen(true);
+    if (row) setHora(row.horario);
+  };
+
+  const handleDelete = (horario) => {
+    const dia = `${date.getMonth() + 1}` +
+      '/' +
+      `${date.getDate()}` +
+      '/' +
+      `${date.getFullYear()}`;
+    Axios.delete(`http://localhost:3001/deletarHorario/`, { data: { dia: dia, horario: horario } }).then(res => {
+      console.log(res);
+      console.log(res.data);
+
+    })
+  };
 
   return authorizedAccess ? (
+
     <Fragment>
       <Typography
         component="h2"
@@ -102,6 +127,16 @@ const Schedule = ({ date, setDate }) => {
         pb={2}
       >
         Agendamentos
+      </Typography>
+      <Typography
+        component="h9"
+        variant="h9"
+        color="black"
+        gutterBottom
+        inline
+        pb={2}
+      >
+        Clique no agendamento para excluir
       </Typography>
       <LocalizationProvider dateAdapter={AdapterDateFns} locale={ptBRLocale}>
         <DatePicker
@@ -114,8 +149,19 @@ const Schedule = ({ date, setDate }) => {
           }}
         />
       </LocalizationProvider>
-      <TableContainer sx={{ pb: 2 }}>
-        <Table size="small">
+      {/* <Quadro
+        open={open}
+        setOpen={setOpen}
+        date={
+          `${date.getMonth() + 1}` +
+          '/' +
+          `${date.getDate()}` +
+          '/' +
+          `${date.getFullYear()}`}
+        horario={hora}
+      /> */}
+      <TableContainer sx={{ pb: 2 }} >
+        <Table size="small" >
           <TableHead>
             <TableRow>
               <TableCell>Horário</TableCell>
@@ -128,11 +174,14 @@ const Schedule = ({ date, setDate }) => {
               <TableCell>Raça</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody >
             {AgendamentoData.map &&
               AgendamentoData.map((row) => (
-                <TableRow>
-                  <TableCell>{row.horario}</TableCell>
+                <TableRow onClick={() => { if (window.confirm('Deseja excluir esse agendamento?')) { handleDelete(row.horario) } }}>
+                  <TableCell
+                    name="horario"
+                    label="horario"
+                    id="horario">{row.horario}</TableCell>
                   <TableCell>{row.nome}</TableCell>
                   <TableCell>{row.telefone}</TableCell>
                   <TableCell>{row.email}</TableCell>
@@ -158,9 +207,10 @@ const Dashboard = () => {
     localStorage.removeItem('email');
     window.location.href = '/login';
   };
-
   return (
+
     <Box sx={{ display: 'flex' }}>
+
       <AppBar position="absolute">
         <Toolbar sx={{ pr: '24px' }}>
           <Typography

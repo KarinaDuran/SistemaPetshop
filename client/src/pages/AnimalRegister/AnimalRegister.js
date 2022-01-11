@@ -19,9 +19,9 @@ import PetsIcon from '@mui/icons-material/Pets';
 
 const theme = createTheme(themeDefault);
 
-const RegisterForm = () => {
+const AnimalRegister = () => {
   const [values, setValues] = useState({});
-
+  const [email, setEmail] = useState(localStorage.getItem('email'));
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setValues({
@@ -30,14 +30,14 @@ const RegisterForm = () => {
     });
   };
 
-  const handleRegister = async (e) => {
-    Axios.post('http://localhost:3001/cadastro', values)
+  const handleRegisterPet = async (e) => {
+    Axios.post('http://localhost:3001/CadastroAnimal', values)
       .then(function (response) {
         //handle success
         alert(response.data.statusText);
         if (response.data.status === 200) {
-          alert('Cadastro realizado com sucesso');
-          window.location.href = '/login';
+          alert('Cadastro do animal realizado com sucesso');
+          window.location.href = '/Agendamento';
         }
       })
       .catch(function (response) {
@@ -46,19 +46,15 @@ const RegisterForm = () => {
       });
   };
 
-  const validationsRegister = yup.object().shape({
-    email: yup
+
+
+  const validationsRegisterPet = yup.object().shape({
+    nome_do_animal: yup
       .string()
-      .email('email inválido')
-      .required('O email é obrigatório'),
-    senha: yup.string().required('A senha é obrigatória'),
-    confirmacao: yup
-      .string()
-      .oneOf([yup.ref('senha'), null], 'As senhas são diferentes')
-      .required('A confirmação da senha é obrigatória'),
-    nome: yup.string().required('O nome é obrigatório'),
-    telefone: yup.string().required('O telefone é obrigatório'),
-    nome_animal: yup.string().required('O nome do animal é obrigatório'),
+      .required('O Nome é obrigatório'),
+    especie_do_animal: yup.string().required('A especie é obrigatória'),
+    raca_do_animal: yup.string().required('A raça é obrigatória'),
+    porte_do_animal: yup.string().required('O porte é obrigatório'),
   });
 
   return (
@@ -81,38 +77,12 @@ const RegisterForm = () => {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleRegister}
-            validationSchema={validationsRegister}
+            onSubmit={handleRegisterPet}
+            validationSchema={validationsRegisterPet}
             sx={{ mt: 1 }}
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="nome"
-              label="Nome"
-              name="nome"
-              onChange={handleInputChange}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="email"
-              label="Email"
-              id="email"
-              onChange={handleInputChange}
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              name="telefone"
-              label="Telefone"
-              id="telefone"
-              onChange={handleInputChange}
-            />
 
-            {/* <TextField
+            <TextField
               margin="normal"
               required
               fullWidth
@@ -156,27 +126,8 @@ const RegisterForm = () => {
               <MenuItem value={'P'}>Pequeno</MenuItem>
               <MenuItem value={'M'}>Médio</MenuItem>
               <MenuItem value={'G'}>Grande</MenuItem>
-            </TextField> */}
+            </TextField>
 
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="senha"
-              label="Senha"
-              type="password"
-              id="senha"
-              onChange={handleInputChange}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="confirmacao"
-              label="Confirme sua senha"
-              type="password"
-              id="confirmacao"
-            />
             <Button
               type="submit"
               fullWidth
@@ -186,8 +137,8 @@ const RegisterForm = () => {
               Cadastrar
             </Button>
             <Grid item>
-              <Link href="/login" variant="body2">
-                Já tem cadastro? Faça seu login
+              <Link href="/Agendamento" variant="body2">
+                Voltar
               </Link>
             </Grid>
           </Box>
@@ -197,4 +148,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default AnimalRegister;

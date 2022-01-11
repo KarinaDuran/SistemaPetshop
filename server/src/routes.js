@@ -13,11 +13,15 @@ routes.get('/', (req, res) => {
 })
 
 routes.post('/cadastro', userController.criaUser);
+routes.post('/cadastroAnimal', userController.cadastraAnimal);
 routes.post('/login', userController.login);
 routes.get('/Dashboard', schedullingController.mostrarHorario);
 routes.get('/Agendamento', schedullingController.horarioLivre);
+routes.get('/AgendaUsuario', schedullingController.mostrarHorarioUser);
+routes.get('/AnimaisUsuario', userController.animaisDoUsuario);
 routes.post('/Agendamento', schedullingController.reservaHorario);
 routes.get('/validateCredentials', userController.validateCredentials);
+routes.delete('/deletarHorario/', schedullingController.deletaHorario);
 
 // routes.all('/*', async (req, res) => {
 //     console.log(req.url)

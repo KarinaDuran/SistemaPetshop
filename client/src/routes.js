@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard/Dashboard';
 import LoginPage from './pages/LoginPage/LoginPage';
 import UserPage from './pages/UserPage';
+import AnimalRegister from './pages/AnimalRegister/AnimalRegister';
 import Home from './pages/Home/Home';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import RegisterForm from './pages/RegisterForm/RegisterForm';
@@ -18,10 +19,12 @@ const Routes = () => {
         <Switch>
           <PrivateRoute path="/Agendamento" component={UserPage} />
           {/* <Route component={UserPage} path="/Agendamento" /> */}
+          <PrivateRoute component={AnimalRegister} path="/CadastroAnimal" />
           <Route component={Dashboard} path="/dashboard" />
           <Route component={RegisterForm} path="/cadastro" />
           <Route component={LoginPage} path="/login" />
           <Route component={Home} path="/" />
+          
         </Switch>
       </Router>
     </ThemeProvider>
