@@ -55,9 +55,6 @@ const RegisterForm = () => {
       .string()
       .oneOf([yup.ref('senha'), null], 'As senhas são diferentes')
       .required('A confirmação da senha é obrigatória'),
-    nome: yup.string().required('O nome é obrigatório'),
-    telefone: yup.string().required('O telefone é obrigatório'),
-    nome_animal: yup.string().required('O nome do animal é obrigatório'),
   });
 
   return (
@@ -126,6 +123,7 @@ const RegisterForm = () => {
               margin="normal"
               required
               fullWidth
+              validationSchema={validationsRegister}
               name="confirmacao"
               label="Confirme sua senha"
               type="password"
