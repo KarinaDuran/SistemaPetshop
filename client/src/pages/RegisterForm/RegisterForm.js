@@ -13,7 +13,6 @@ import {
   Link,
   TextField,
   Typography,
-  MenuItem,
 } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
 
@@ -35,7 +34,7 @@ const RegisterForm = () => {
       .then(function (response) {
         //handle success
         alert(response.data.statusText);
-        if (response.data.status === 200) {
+        if (response.data.status == 200) {
           alert('Cadastro realizado com sucesso');
           window.location.href = '/login';
         }
@@ -112,51 +111,6 @@ const RegisterForm = () => {
               onChange={handleInputChange}
             />
 
-            {/* <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="nome_do_animal"
-              label="Nome do animal"
-              id="nome_do_animal"
-              onChange={handleInputChange}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="especie_do_animal"
-              label="Espécie do animal"
-              id="especie_do_animal"
-              onChange={handleInputChange}
-              select
-            >
-              <MenuItem value={'Cachorro'}>Cachorro</MenuItem>
-              <MenuItem value={'Gato'}>Gato</MenuItem>
-            </TextField>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="raca_do_animal"
-              label="Raça do animal"
-              id="raca_do_animal"
-              onChange={handleInputChange}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="porte_do_animal"
-              label="Porte do animal"
-              id="porte_do_animal"
-              onChange={handleInputChange}
-              select
-            >
-              <MenuItem value={'P'}>Pequeno</MenuItem>
-              <MenuItem value={'M'}>Médio</MenuItem>
-              <MenuItem value={'G'}>Grande</MenuItem>
-            </TextField> */}
 
             <TextField
               margin="normal"
