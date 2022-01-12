@@ -29,6 +29,8 @@ const RegisterForm = () => {
     });
   };
 
+
+
   const handleRegister = async (e) => {
     Axios.post('http://localhost:3001/cadastro', values)
       .then(function (response) {
@@ -93,6 +95,7 @@ const RegisterForm = () => {
             <TextField
               margin="normal"
               required
+              email
               fullWidth
               name="email"
               label="Email"
@@ -108,7 +111,6 @@ const RegisterForm = () => {
               onChange={handleInputChange}
             />
 
-
             <TextField
               margin="normal"
               required
@@ -123,11 +125,11 @@ const RegisterForm = () => {
               margin="normal"
               required
               fullWidth
-              validationSchema={validationsRegister}
               name="confirmacao"
               label="Confirme sua senha"
               type="password"
               id="confirmacao"
+              onChange={handleInputChange}
             />
             <Button
               type="submit"

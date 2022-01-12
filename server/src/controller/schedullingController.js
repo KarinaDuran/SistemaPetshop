@@ -73,16 +73,13 @@ module.exports = {
       '18:00',
       '19:00',
     ];
-    console.log(lista);
+
     const data = req.query.dia;
-    console.log(lista);
     scheduling = await Scheduling.findAll({ where: { dia: data } });
-    await console.log(lista);
     for (const s of scheduling) {
       var index = lista.indexOf(s.dataValues.horario);
       await lista.splice(index, 1);
     }
-    console.log(lista);
     res.send(lista);
   },
 
@@ -128,7 +125,6 @@ module.exports = {
     `${diaEhora.getDate()}` +
     '/' +
     `${diaEhora.getFullYear()}`
-    console.log(hoje);
     listaHorario = [
       '08:00',
       '09:00',
@@ -193,7 +189,6 @@ module.exports = {
       horarios: listaHorario
     });
 
-    console.log(lista);
     res.send(lista);
   }
 };

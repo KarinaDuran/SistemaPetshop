@@ -102,6 +102,7 @@ const Schedule = ({ date, setDate }) => {
       console.log(res.data);
 
     })
+    window.location.reload(false);
   };
 
   return authorizedAccess ? (

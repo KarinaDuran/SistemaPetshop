@@ -67,7 +67,7 @@ const UserPage = () => {
       });
   }, []);
 
-  useEffect(async () => {
+  useEffect( () => {
     if (date) agendamento();
   }, [date]);
 
@@ -125,11 +125,8 @@ const UserPage = () => {
         //handle error
         console.log(response);
       });
-   
+      window.location.reload(false);
     
-
-    // agendamento();
-
   };
 
   const validationAgendamento = yup.object().shape({

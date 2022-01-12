@@ -9,13 +9,26 @@ module.exports = {
     const email = req.body.email;
     const nome = req.body.nome;
     const telefone = req.body.telefone;
-    // const nome_do_animal = req.body.nome_do_animal;
-    // const especie_do_animal = req.body.especie_do_animal;
-    // const porte_do_animal = req.body.porte_do_animal;
-    // const raca_do_animal = req.body.raca_do_animal;
     const senha = req.body.senha;
+    const confirmacao = req.body.confirmacao;
+    var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+    if(confirmacao != senha){
+      res.send({
+        status: 401,
+        statusText: 'As senhas não batem'
+      })
+      return;
+    }
+    if (!pattern.test(email)) {
+      res.send({
+        status: 402,
+        statusText: "Email em formato errado."
 
+      })
+        return;
+    }
 
+  
 
     mesmoMail = await User.findOne({ where: { email: email } });
     if (mesmoMail) {
@@ -32,16 +45,8 @@ module.exports = {
           telefone: telefone,
           senha: hash,
         });
-        //animal = Animal.create({
-        //  email: email,
-        // especie_do_animal: especie_do_animal,
-        // nome_do_animal: nome_do_animal,
-        // porte_do_animal: porte_do_animal,
-        //raca_do_animal: raca_do_animal,
-        //});
-
         res.send({
-          status: 201,
+          status: 200,
           data: { message: email },
           statusText: 'Cadastro realizado com sucesso',
         });
